@@ -9,8 +9,9 @@ jobs:
   build:
     - uses: actions/upload-artifact@master
       with:
-        name: webpack artifacts
-        path: public/
+      needs: build
+      name: webpack artifacts
+      path: public/
         
 runs-on: ubuntu-latest
 
@@ -20,8 +21,12 @@ runs-on: ubuntu-latest
         run: |
           npm install
           npm run build
-
-  test:
+    test:
+      - uses: actions/download-artifact@master
+        with:
+          name: webpack artifacts
+          path: public
+      - name: npm install, and test
 
     runs-on: ubuntu-latest
 
